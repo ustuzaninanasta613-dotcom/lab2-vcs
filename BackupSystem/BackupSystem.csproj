@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupManager.cs" />
+    <Compile Include="BackupStatistics.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

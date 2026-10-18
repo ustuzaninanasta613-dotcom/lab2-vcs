@@ -81,6 +81,7 @@ namespace BackupSystem
                     result.Message);
             }
             Logger.Log($"Резервное копирование выполнено, результатов: {results.Count}");
+            Logger.Log(BackupStatistics.Summary(results));
         }
 
         private void btnRestore_Click(object sender, EventArgs e)
