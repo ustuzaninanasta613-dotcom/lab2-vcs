@@ -80,6 +80,7 @@ namespace BackupSystem
                     result.Success ? result.Id : "-",
                     result.Message);
             }
+            Logger.Log($"Резервное копирование выполнено, результатов: {results.Count}");
         }
 
         private void btnRestore_Click(object sender, EventArgs e)

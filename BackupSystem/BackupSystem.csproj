@@ -56,6 +56,7 @@
     <Compile Include="FtpBackup.cs" />
     <Compile Include="IBackupDestination.cs" />
     <Compile Include="LocalBackup .cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="NetworkFolderBackup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
