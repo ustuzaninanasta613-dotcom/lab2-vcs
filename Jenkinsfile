@@ -20,7 +20,7 @@ pipeline {
         stage('Setup') {
             steps {
                 echo 'Восстановление NuGet-пакетов...'
-                bat 'msbuild BackupSystem.sln -t:Restore || echo "Пакеты не требуются"'
+                bat 'msbuild BackupSystem.sln -t:Restore || echo "Пакеты не требуются."'
             }
         }
         
