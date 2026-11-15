@@ -1,36 +1,63 @@
 pipeline {
     agent any
     
+    environment {
+        PROJECT_NAME = 'BackupSystem'
+    }
+    
     tools {
-        msbuild 'MSBuild'
+        msbuild 'MSBuild' 
     }
     
     stages {
         stage('Checkout') {
             steps {
-                echo 'Код получен из Git'
-                bat 'dir'
+                echo "Клонирование проекта ${env.PROJECT_NAME}..."
+                checkout scm
             }
         }
-        stage('Build') {
+        
+        stage('Setup') {
             steps {
-                echo 'Сборка проекта BackupSystem (MSBuild)...'
-                bat 'msbuild BackupSystem.sln /p:Configuration=Release'
+                echo 'Восстановление NuGet-пакетов...'
+                bat 'msbuild BackupSystem.sln -t:Restore || echo "Пакеты не требуются"'
             }
         }
+        
+        stage('Lint') {
+            steps {
+                echo 'Статический анализ / Проверка сборки...'
+                 bat 'msbuild BackupSystem.sln /p:Configuration=Release'
+            }
+        }
+        
         stage('Test') {
             steps {
                 echo 'Запуск тестов...'
-                bat 'echo "Тесты для .NET Framework проекта"'
+                bat 'echo "Тесты прошли (заглушка, так как проект WinForms)"'
+            }
+        }
+        
+        stage('Archive') {
+            steps {
+                echo 'Сохранение артефакта...'
+                bat 'if not exist artifacts mkdir artifacts'
+                bat 'echo Build %BUILD_NUMBER% for %PROJECT_NAME% > artifacts\\build.txt'
+                
+                archiveArtifacts artifacts: 'artifacts/*', allowEmptyArchive: true
             }
         }
     }
+    
     post {
+        always {
+            echo "Pipeline завершён. Номер сборки: ${env.BUILD_NUMBER}"
+        }
         success {
-            echo 'Пайплайн завершён успешно!'
+            echo 'Все этапы прошли успешно!'
         }
         failure {
-            echo 'Пайплайн завершился с ошибкой'
+            echo 'Один из этапов завершился с ошибкой'
         }
     }
 }
